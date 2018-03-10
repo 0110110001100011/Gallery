@@ -1,10 +1,10 @@
 <template lang="pug">
   #app(v-cloak)
     .wrapper.bg-light
-      navbar(:title="title")
+      navbar(:title="title" :album="album")
       main(role="main")
         jumbotron(:title="title")
-        gallery
+        gallery(@getVisibleCards="getVisibleCards" @getTotalCards="getTotalCards")
 </template>
 
 <script>
@@ -16,7 +16,19 @@
     name: 'app',
     data() {
       return {
-        title: 'Album example'
+        title: 'Photo Gallery',
+        album: {
+          visibleCards: 0,
+          totalCards: 0
+        }
+      }
+    },
+    methods: {
+      getTotalCards (total) {
+        this.album.totalCards = total;
+      },
+      getVisibleCards(newValue) {
+        this.album.visibleCards = newValue;
       }
     },
     components: {
@@ -27,8 +39,10 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .wrapper{
+    min-width: 320px;
+    padding-bottom: 100px;
     padding-top: 56px;
   }
 </style>
