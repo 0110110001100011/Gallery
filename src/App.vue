@@ -1,7 +1,7 @@
 <template lang="pug">
   #app(v-cloak)
     .wrapper.bg-light
-      navbar
+      navbar(:title="title")
       main(role="main")
         jumbotron(:title="title")
         gallery
@@ -28,5 +28,7 @@
 </script>
 
 <style lang="scss">
-
+  .wrapper{
+    padding-top: 56px;
+  }
 </style>
