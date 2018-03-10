@@ -1,5 +1,6 @@
 <template lang="pug">
   section.gallery
+    modal(v-if='isModalVisible', @close='closeModal', :photo='photoSelected')
     .container
       .row
         .col-md-12
@@ -7,12 +8,13 @@
             b {{ title }}
           hr
       .row
-        card(v-for="(photo, index) in photos" :key="photo.id" :index="index" :photo="photo" v-if="isCardVisible(index)")
+        card(v-for="(photo, index) in photos" :key="photo.id" :index="index" :photo="photo" v-if="isCardVisible(index)" @openModal='openModal')
 </template>
 
 <script>
   import API_getPhotos from './../api';
   import card from './card';
+  import modal from './modal';
   const ITEMS = 100;
 
   export default {
@@ -21,6 +23,7 @@
       return {
         photos: {},
         photoSelected: {},
+        isModalVisible: false,
         title: "Photos",
         totalItems: ITEMS
       }
@@ -32,6 +35,9 @@
       this.scrollListener();
     },
     methods: {
+      closeModal() {
+        this.isModalVisible = false;
+      },
       getPhotos() {
         let _this = this;
         API_getPhotos().then(function (response) {
@@ -54,12 +60,17 @@
       isCardVisible(index) {
         return (index < this.totalItems);
       },
+      openModal(index) {
+        this.isModalVisible = true;
+        this.photoSelected = this.photos[index];
+      },
       scrollListener() {
         window.addEventListener('scroll', this.increaseItemsLimit);
       }
     },
     components: {
-      card
+      card,
+      modal
     }
   }
 </script>

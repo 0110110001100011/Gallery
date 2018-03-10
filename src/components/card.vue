@@ -1,17 +1,22 @@
 <template lang="pug">
-.gallery-item.col-6.col-sm-4.col-md-3.col-lg-2
-  .photo.card.mb-4.box-shadow
-    img.card-img-top(:src="photo.thumbnailUrl" :alt="photo.title" :title="photo.title")
-    .card-body
-      h6.card-title.text-truncate.mb-0.photo-album
-        b {{ albumTitle }}
-      p.card-text.text-capitalize.photo-title.text-truncate.text-muted(:title="photo.title") {{ photo.title }}
+  .gallery-item.col-6.col-sm-4.col-md-3.col-lg-2(@click="openModal")
+    .photo.card.box-shadow
+      img.card-img-top(:src="photo.thumbnailUrl" :alt="photo.title" :title="photo.title")
+      .card-body
+        h6.card-title.text-truncate.mb-0.photo-album
+          b {{ albumTitle }}
+        p.card-text.text-capitalize.photo-title.text-truncate.text-muted(:title="photo.title") {{ photo.title }}
 </template>
 
 <script>
 export default {
   name: 'card',
   props: ['photo','index'],
+  methods: {
+    openModal(){
+      this.$emit('openModal',this.index);
+    }
+  },
   computed: {
     albumTitle() {
       return 'Album ' + this.photo.albumId;
@@ -35,6 +40,7 @@ export default {
     padding: 0 5px;
   }
   .photo {
+    margin-bottom: 10px;
     overflow: hidden;
     transition: all 200ms ease-in 0s;
     &:hover {
